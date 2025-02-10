@@ -42,34 +42,27 @@ const Table = (props: InputProps): React.JSX.Element => {
   };
 
   const getYearData = (year: number): React.JSX.Element => {
+
+    let bcolor = sunkCostDelta[year] < 0 ? 'red': 'green';
+
     return (
       <tr>
-        <td>{year}</td>
-        <td>{sunkCostDelta[year].toFixed(0)}</td>
-        <td>{sunkCostBuy[year].toFixed(0)}</td>
-        <td>{sunkCostRent[year].toFixed(0)}</td>
-        <td>{realtyMV[year].toFixed(0)}</td>
-        <td>{annualRentalCost[year].toFixed(0)}</td>
-        <td>{interest[year].toFixed(0)}</td>
-        <td>{principal[year].toFixed(0)}</td>
+        <td data-label="Year">{year}</td>
+        <td data-label="Buy equity" style={{background:bcolor}}>{sunkCostDelta[year].toFixed(0)}</td>
+        <td data-label="Sunk buy">{sunkCostBuy[year].toFixed(0)}</td>
+        <td data-label="Sunk rent">{sunkCostRent[year].toFixed(0)}</td>
+        <td data-label="Realty market value">{realtyMV[year].toFixed(0)}</td>
+        <td data-label="Annual rent cost">{annualRentalCost[year].toFixed(0)}</td>
+        <td data-label="Loan interest">{interest[year].toFixed(0)}</td>
+        <td data-label="Loan principal">{principal[year].toFixed(0)}</td>
       </tr>
     )
   };
 
   return (
     <>
-      <div className="container">
-        <table>
-          <thead>
-            <tr>
-              <td>annual payment amount</td>
-              <td>{annualPaymentAmount.toFixed(0)}</td>
-            </tr>
-          </thead>
-        </table>
-     </div>
-     <div className="container">
-        <table>
+      <div className="container table-container">
+        <table className="hoverable">
           <thead>
             <tr>
               <th>Year</th>
@@ -86,7 +79,7 @@ const Table = (props: InputProps): React.JSX.Element => {
             {years.map((element, i) => {return getYearData(i)})}
           </tbody>
         </table>
-     </div>
+      </div>
    </>
   )
 

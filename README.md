@@ -1,3 +1,13 @@
+# initial setup
+
+Install yarn using npm if not ready installed
+
+```shell
+npm install -g corepack
+corepack enable
+```
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

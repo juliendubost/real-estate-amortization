@@ -36,44 +36,57 @@ const Input = (): React.JSX.Element => {
       setInputData(prevData => ({...prevData, [name]: value}))
     }
 
-
-    const handleReset = () => {
-
-
-    }
-
   return (
-    <div className="InputPage">
-      <form>
-
-        <label htmlFor="acquisitionCost">Acquisition cost</label>
-        <input type="number" name="acquisitionCost" id="acost" onChange={handleChange} value={inputData.acquisitionCost}></input>
-
-        <label htmlFor="loan">loan</label>
-        <input type="number" name="loan" id="loan" onChange={handleChange} value={inputData.loan}></input>
-
-        <label>loan rate</label>
-        <input type="number" name="loanRate" id="loanRate" onChange={handleChange} value={inputData.loanRate}></input>
-
-        <label>loan years</label>
-        <input type="number" name="loanYears" id="loanYears" onChange={handleChange} value={inputData.loanYears}></input>
-
-        <label htmlFor="realtyMV">Realty market value</label>
-        <input type="number" name="realtyMV" id="realtyMV" onChange={handleChange} value={inputData.realtyMV}></input>
-
-        <label htmlFor="realtyMVRate">Realty market value growth</label>
-        <input type="number" name="realtyMVRate" id="realtyMVRate" onChange={handleChange} value={inputData.realtyMVRate}></input>
-
-        <label htmlFor="rentalCost">Rental cost</label>
-        <input type="number" name="rentalCost" id="rentalCost" onChange={handleChange} value={inputData.rentalCost}></input>
-
-        <label htmlFor="rentalCostRate">Rental cost rate</label>
-        <input type="number" name="rentalCostRate" id="rentalCostRate" onChange={handleChange} value={inputData.rentalCostRate}></input>
-      </form>
-      <div>
-        <Table {...inputData} />
-      </div>
+  <>
+    <div className="container">
+        <fieldset>
+          <legend className="doc">Realty</legend>
+            <div className="row">
+              <div className="col-sm-12 col-md-6 col-lg-12">
+                <div className="col-sm-4 col-md-4 col-lg-4">
+                  <label htmlFor="acquisitionCost">Acquisition cost</label>
+                </div>
+                <div className="col-sm-4 col-md-4 col-lg-4">
+                  <input type="number" name="acquisitionCost" id="acost" onChange={handleChange} value={inputData.acquisitionCost}></input>
+                </div>
+              </div>
+            <div className="col-sm-3-md-3 col-lg-3">
+              <label htmlFor="realtyMV">Market value</label>
+              <input type="number" name="realtyMV" id="realtyMV" onChange={handleChange} value={inputData.realtyMV}></input>
+            </div>
+            <div className="col-sm-3 col-md-3 col-lg-3">
+             <label htmlFor="realtyMVRate">Market value growth</label>
+             <input type="number" name="realtyMVRate" id="realtyMVRate" onChange={handleChange} value={inputData.realtyMVRate}></input>
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend className="doc">Loan</legend>
+          <div className="row">
+            <label htmlFor="loan">loan</label>
+            <input type="number" name="loan" id="loan" onChange={handleChange} value={inputData.loan}></input>
+            <label>loan rate</label>
+            <input type="number" name="loanRate" id="loanRate" onChange={handleChange} value={inputData.loanRate}></input>
+            <label>loan years</label>
+            <input type="number" name="loanYears" id="loanYears" onChange={handleChange} value={inputData.loanYears}></input>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend className="doc">Rent</legend>
+          <div className="row">
+            <label htmlFor="rentalCost">Rental cost</label>
+            <input type="number" name="rentalCost" id="rentalCost" onChange={handleChange} value={inputData.rentalCost}></input>
+            <label htmlFor="rentalCostRate">Rental cost rate</label>
+            <input type="number" name="rentalCostRate" id="rentalCostRate" onChange={handleChange} value={inputData.rentalCostRate}></input>
+          </div>
+        </fieldset>
     </div>
+    <div className="container">
+        <div className="row">
+            <Table {...inputData} />
+        </div>
+    </div>
+  </>
   );
 }
 
