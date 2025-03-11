@@ -6,10 +6,11 @@ const Table = (props: InputProps): React.JSX.Element => {
   // initial values
   let loanRateAbs = props.loanRate / 100;
   let rentalCostRatePercent = props.rentalCostRate / 100;
+  let initialCash = props.acquisitionCost - props.loan;
 
   let firstYearInterest = props.loan * loanRateAbs;
   let firstYearRentCost = props.rentalCost * 12;
-  let firstYearSunkCostBuy = firstYearInterest + props.annualTaxes + (props.acquisitionCost - props.realtyMV);
+  let firstYearSunkCostBuy = firstYearInterest + props.annualTaxes + initialCash + (props.acquisitionCost - props.realtyMV);
   let firstYearLiquidationValue = props.realtyMV - props.loan;
 
   console.log(firstYearInterest);
