@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
 import Table from './Table'
+import { 
+  TextField, 
+  Container, 
+  Paper, 
+  Typography, 
+  Grid,
+  Box
+} from '@mui/material'
 
 export interface InputProps {
   acquisitionCost: number;  // total acquisition cost, taxes included
@@ -35,67 +43,155 @@ const Input = (): React.JSX.Element => {
     }
 
   return (
-  <>
-    <div className="container">
-        <fieldset>
-          <legend className="doc">Realty</legend>
-            <div className="row">
-              <div className="col-sm-4 col-md-6 col-lg-12">
-                <div className="col-sm-4 col-md-4 col-lg-4">
-                  <label htmlFor="acquisitionCost">Acquisition cost</label>
-                </div>
-                <div className="col-sm-4 col-md-4 col-lg-4">
-                  <input type="number" name="acquisitionCost" id="acost" onChange={handleChange} value={inputData.acquisitionCost}></input>
-                </div>
-              </div>
-            <div className="col-sm-3-md-3 col-lg-3">
-              <label htmlFor="realtyMV">Market value</label>
-              <input type="number" name="realtyMV" id="realtyMV" onChange={handleChange} value={inputData.realtyMV}></input>
-            </div>
-            <div className="col-sm-3 col-md-3 col-lg-3">
-             <label htmlFor="realtyMVRate">Market value growth</label>
-             <input type="number" name="realtyMVRate" id="realtyMVRate" onChange={handleChange} value={inputData.realtyMVRate}></input>
-            </div>
-            <div className="col-sm-3 col-md-3 col-lg-3">
-             <label htmlFor="annualTaxes">Annual owner fee</label>
-             <input type="number" name="annualTaxes" id="annualTaxes" onChange={handleChange} value={inputData.annualTaxes}></input>
-            </div>
-            <div className="col-sm-3 col-md-3 col-lg-3">
-             <label htmlFor="annualTaxesRate">Annual owner fee growth rate</label>
-             <input type="number" name="annualTaxesRate" id="annualTaxesRate" onChange={handleChange} value={inputData.annualTaxesRate}></input>
-            </div>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend className="doc">Loan</legend>
-          <div className="row">
-            <label htmlFor="loan">loan</label>
-            <input type="number" name="loan" id="loan" onChange={handleChange} value={inputData.loan}></input>
-            <label>loan rate</label>
-            <input type="number" name="loanRate" id="loanRate" onChange={handleChange} value={inputData.loanRate}></input>
-            <label>loan years</label>
-            <input type="number" name="loanYears" id="loanYears" onChange={handleChange} value={inputData.loanYears}></input>
-          </div>
-        </fieldset>
-        <fieldset>
-          <legend className="doc">Rent</legend>
-          <div className="row">
-            <label htmlFor="rentalCost">Rental cost</label>
-            <input type="number" name="rentalCost" id="rentalCost" onChange={handleChange} value={inputData.rentalCost}></input>
-            <label htmlFor="rentalCostRate">Rental cost rate</label>
-            <input type="number" name="rentalCostRate" id="rentalCostRate" onChange={handleChange} value={inputData.rentalCostRate}></input>
-          </div>
-        </fieldset>
-    </div>
-    <div className="container">
-        <div className="row">
-            <Table {...inputData} />
-        </div>
-    </div>
-  </>
+    <>
+      <Container maxWidth="lg">
+        <Box sx={{ my: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
+              <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                  Realty
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Acquisition cost"
+                      type="number"
+                      name="acquisitionCost"
+                      value={inputData.acquisitionCost}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Market value"
+                      type="number"
+                      name="realtyMV"
+                      value={inputData.realtyMV}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Market value growth"
+                      type="number"
+                      name="realtyMVRate"
+                      value={inputData.realtyMVRate}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Annual owner fee"
+                      type="number"
+                      name="annualTaxes"
+                      value={inputData.annualTaxes}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Annual owner fee growth rate"
+                      type="number"
+                      name="annualTaxesRate"
+                      value={inputData.annualTaxesRate}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                  Loan
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Loan amount"
+                      type="number"
+                      name="loan"
+                      value={inputData.loan}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Loan rate"
+                      type="number"
+                      name="loanRate"
+                      value={inputData.loanRate}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Loan years"
+                      type="number"
+                      name="loanYears"
+                      value={inputData.loanYears}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+
+            <Grid item xs={12} md={4}>
+              <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+                <Typography variant="h6" gutterBottom>
+                  Rent
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Rental cost"
+                      type="number"
+                      name="rentalCost"
+                      value={inputData.rentalCost}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      size="small"
+                      fullWidth
+                      label="Rental cost rate"
+                      type="number"
+                      name="rentalCostRate"
+                      value={inputData.rentalCostRate}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Box>
+        <Table {...inputData} />
+      </Container>
+    </>
   );
 }
-
-
 
 export default Input;

@@ -1,5 +1,17 @@
 import React from 'react'
 import {InputProps} from './Input'
+import {
+  Table as MuiTable,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Box,
+  Grid
+} from '@mui/material'
 
 const Table = (props: InputProps): React.JSX.Element => {
 
@@ -46,57 +58,76 @@ const Table = (props: InputProps): React.JSX.Element => {
   };
 
   const getYearData = (year: number): React.JSX.Element => {
-
-    let bcolor = sunkCostDelta[year] < 0 ? 'red': 'green';
+    const isNegative = sunkCostDelta[year] < 0;
 
     return (
-      <tr>
-        <td data-label="Year">{years[year]}</td>
-        <td data-label="Buy equity" style={{background:bcolor}}>{sunkCostDelta[year].toFixed(0)}</td>
-        <td data-label="Sunk buy">{sunkCostBuy[year].toFixed(0)}</td>
-        <td data-label="Sunk rent">{sunkCostRent[year].toFixed(0)}</td>
-        <td data-label="Realty market value">{realtyMV[year].toFixed(0)}</td>
-        <td data-label="Annual rent cost">{annualRentalCost[year].toFixed(0)}</td>
-        <td data-label="Loan interest">{interest[year].toFixed(0)}</td>
-        <td data-label="Loan principal">{principal[year].toFixed(0)}</td>
-      </tr>
-    )
+      <TableRow key={year}>
+        <TableCell>{years[year]}</TableCell>
+        <TableCell sx={{
+          color: isNegative ? 'error.main' : 'success.main',
+          fontWeight: 'bold'
+        }}>
+          {sunkCostDelta[year].toFixed(0)}
+        </TableCell>
+        <TableCell>{sunkCostBuy[year].toFixed(0)}</TableCell>
+        <TableCell>{sunkCostRent[year].toFixed(0)}</TableCell>
+        <TableCell>{realtyMV[year].toFixed(0)}</TableCell>
+        <TableCell>{annualRentalCost[year].toFixed(0)}</TableCell>
+        <TableCell>{interest[year].toFixed(0)}</TableCell>
+        <TableCell>{principal[year].toFixed(0)}</TableCell>
+      </TableRow>
+    );
   };
 
   return (
     <>
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-4">
-              Annual rent payment: {annualPaymentAmount.toFixed(0)}
-          </div>
-          <div className="col-sm-4">
-              Acquisition initial sunk costs: { (realtyMV[0] - props.acquisitionCost).toFixed(0)}
-          </div>
-        </div>
-      </div>
-      <div className="container table-container">
-        <table className="hoverable">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Buy equity</th>
-              <th>Sunk buy</th>
-              <th>Sunk rent</th>
-              <th>Realty market value</th>
-              <th>Annual rent cost</th>
-              <th>Loan interest</th>
-              <th>Loan principal</th>
-            </tr>
-          </thead>
-          <tbody>
-            {years.map((element, i) => {return getYearData(i)})}
-          </tbody>
-        </table>
-      </div>
-   </>
+      <Box sx={{ mb: 4, mt: 4 }}>
+        <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" color="primary">
+                Annual rent payment: {annualPaymentAmount.toFixed(0)}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" color="primary">
+                Acquisition initial sunk costs: {(realtyMV[0] - props.acquisitionCost).toFixed(0)}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Paper>
+        <TableContainer component={Paper} sx={{ 
+          elevation: 3,
+          '& .MuiTableCell-head': {
+            backgroundColor: 'primary.main',
+            color: 'white',
+            fontWeight: 'bold'
+          },
+          '& .MuiTableCell-body': {
+            fontSize: '1rem'
+          }
+        }}>
+          <MuiTable size="medium">
+            <TableHead>
+              <TableRow>
+                <TableCell>Year</TableCell>
+                <TableCell>Buy equity</TableCell>
+                <TableCell>Sunk buy</TableCell>
+                <TableCell>Sunk rent</TableCell>
+                <TableCell>Realty market value</TableCell>
+                <TableCell>Annual rent cost</TableCell>
+                <TableCell>Loan interest</TableCell>
+                <TableCell>Loan principal</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {years.map((_, i) => getYearData(i))}
+            </TableBody>
+          </MuiTable>
+        </TableContainer>
+      </Box>
+    </>
   )
-
 }
 
 export default Table
