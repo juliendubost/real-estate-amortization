@@ -9,19 +9,22 @@ const Table = (props: InputProps): React.JSX.Element => {
 
   let firstYearInterest = props.loan * loanRateAbs;
   let firstYearRentCost = props.rentalCost * 12;
-  let firstYearSunkCostBuy = firstYearInterest + props.annualTaxes + props.cash + (props.acquisitionCost - props.realtyMV);
+  let firstYearSunkCostBuy = firstYearInterest + props.annualTaxes + (props.acquisitionCost - props.realtyMV);
   let firstYearLiquidationValue = props.realtyMV - props.loan;
 
-  console.log(props.loanYears);
+  console.log(firstYearInterest);
+  console.log(props.annualTaxes);
+  console.log(props.acquisitionCost);
+  console.log(props.realtyMV);
+  console.log(firstYearSunkCostBuy);
   let annualPaymentAmount = ((props.loan * loanRateAbs * ((1 + loanRateAbs)) ** props.loanYears) / ((1 + loanRateAbs) ** props.loanYears -1));
   //
-  console.log(annualPaymentAmount);
 
   let years: number[] = [1];
   let principal: number[] = [props.loan];
   let interest: number[] = [firstYearInterest];
   let annualTaxesCost: number[] = [props.annualTaxes];
-  let annualRentalCost: number[] = [firstYearInterest];
+  let annualRentalCost: number[] = [firstYearRentCost];
   let realtyMV: number[] = [props.realtyMV];
   let sunkCostBuy: number[] = [firstYearSunkCostBuy];
   let sunkCostRent: number[] = [firstYearRentCost];
@@ -47,20 +50,30 @@ const Table = (props: InputProps): React.JSX.Element => {
 
     return (
       <tr>
-        <td data-label="Year">{year}</td>
+        <td data-label="Year">{years[year]}</td>
         <td data-label="Buy equity" style={{background:bcolor}}>{sunkCostDelta[year].toFixed(0)}</td>
-        <td data-label="Sunk buy">{sunkCostBuy[year].toFixed(0)}</td>
+        <td data-label="Sunk buy">{sunkCostBuy[year]}</td>
         <td data-label="Sunk rent">{sunkCostRent[year].toFixed(0)}</td>
-        <td data-label="Realty market value">{realtyMV[year].toFixed(0)}</td>
+        <td data-label="Realty market value">{realtyMV[year]}</td>
         <td data-label="Annual rent cost">{annualRentalCost[year].toFixed(0)}</td>
         <td data-label="Loan interest">{interest[year].toFixed(0)}</td>
-        <td data-label="Loan principal">{principal[year].toFixed(0)}</td>
+        <td data-label="Loan principal">{principal[year]}</td>
       </tr>
     )
   };
 
   return (
     <>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-4">
+              Annual rent payment: {annualPaymentAmount.toFixed(0)}
+          </div>
+          <div className="col-sm-4">
+              Acquisition initial sunk costs: { (realtyMV[0] - props.acquisitionCost).toFixed(0)}
+          </div>
+        </div>
+      </div>
       <div className="container table-container">
         <table className="hoverable">
           <thead>

@@ -3,7 +3,6 @@ import Table from './Table'
 
 export interface InputProps {
   acquisitionCost: number;  // total acquisition cost, taxes included
-  cash: number;
   loan: number;
   loanRate: number;
   loanYears: number;
@@ -19,7 +18,6 @@ const Input = (): React.JSX.Element => {
 
     const [inputData, setInputData] = useState<InputProps> ({
       acquisitionCost: 340000,
-      cash: 30000,
       loan: 300000,
       loanRate: 3.0,
       loanYears: 4,
@@ -42,7 +40,7 @@ const Input = (): React.JSX.Element => {
         <fieldset>
           <legend className="doc">Realty</legend>
             <div className="row">
-              <div className="col-sm-12 col-md-6 col-lg-12">
+              <div className="col-sm-4 col-md-6 col-lg-12">
                 <div className="col-sm-4 col-md-4 col-lg-4">
                   <label htmlFor="acquisitionCost">Acquisition cost</label>
                 </div>
@@ -57,6 +55,14 @@ const Input = (): React.JSX.Element => {
             <div className="col-sm-3 col-md-3 col-lg-3">
              <label htmlFor="realtyMVRate">Market value growth</label>
              <input type="number" name="realtyMVRate" id="realtyMVRate" onChange={handleChange} value={inputData.realtyMVRate}></input>
+            </div>
+            <div className="col-sm-3 col-md-3 col-lg-3">
+             <label htmlFor="annualTaxes">Annual owner fee</label>
+             <input type="number" name="annualTaxes" id="annualTaxes" onChange={handleChange} value={inputData.annualTaxes}></input>
+            </div>
+            <div className="col-sm-3 col-md-3 col-lg-3">
+             <label htmlFor="annualTaxesRate">Annual owner fee growth rate</label>
+             <input type="number" name="annualTaxesRate" id="annualTaxesRate" onChange={handleChange} value={inputData.annualTaxesRate}></input>
             </div>
           </div>
         </fieldset>

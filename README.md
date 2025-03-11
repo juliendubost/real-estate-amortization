@@ -7,6 +7,11 @@ npm install -g corepack
 corepack enable
 ```
 
+Then instantiate a new project inside project directory
+
+```shell
+yarn create-react-app my-app --template typescript
+```
 
 # Getting Started with Create React App
 
