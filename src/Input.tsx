@@ -43,154 +43,152 @@ const Input = (): React.JSX.Element => {
     }
 
   return (
-    <>
-      <Container maxWidth="lg">
-        <Box sx={{ my: 2 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={4}>
-              <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="h6" gutterBottom>
-                  Realty
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Acquisition cost"
-                      type="number"
-                      name="acquisitionCost"
-                      value={inputData.acquisitionCost}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Market value"
-                      type="number"
-                      name="realtyMV"
-                      value={inputData.realtyMV}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Market value growth"
-                      type="number"
-                      name="realtyMVRate"
-                      value={inputData.realtyMVRate}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Annual owner fee"
-                      type="number"
-                      name="annualTaxes"
-                      value={inputData.annualTaxes}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Annual owner fee growth rate"
-                      type="number"
-                      name="annualTaxesRate"
-                      value={inputData.annualTaxesRate}
-                      onChange={handleChange}
-                    />
-                  </Grid>
+    <Container maxWidth="xl">
+      <Grid container spacing={2}>
+        <Grid item xs={12} lg={4}>
+          <Box sx={{ my: 2 }}>
+            <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Realty
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Acquisition cost"
+                    type="number"
+                    name="acquisitionCost"
+                    value={inputData.acquisitionCost}
+                    onChange={handleChange}
+                  />
                 </Grid>
-              </Paper>
-            </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Market value"
+                    type="number"
+                    name="realtyMV"
+                    value={inputData.realtyMV}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Market value growth"
+                    type="number"
+                    name="realtyMVRate"
+                    value={inputData.realtyMVRate}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Annual owner fee"
+                    type="number"
+                    name="annualTaxes"
+                    value={inputData.annualTaxes}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Annual owner fee growth rate"
+                    type="number"
+                    name="annualTaxesRate"
+                    value={inputData.annualTaxesRate}
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
 
-            <Grid item xs={12} md={4}>
-              <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="h6" gutterBottom>
-                  Loan
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Loan amount"
-                      type="number"
-                      name="loan"
-                      value={inputData.loan}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Loan rate"
-                      type="number"
-                      name="loanRate"
-                      value={inputData.loanRate}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Loan years"
-                      type="number"
-                      name="loanYears"
-                      value={inputData.loanYears}
-                      onChange={handleChange}
-                    />
-                  </Grid>
+            <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Loan
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Loan amount"
+                    type="number"
+                    name="loan"
+                    value={inputData.loan}
+                    onChange={handleChange}
+                  />
                 </Grid>
-              </Paper>
-            </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Loan rate"
+                    type="number"
+                    name="loanRate"
+                    value={inputData.loanRate}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Loan years"
+                    type="number"
+                    name="loanYears"
+                    value={inputData.loanYears}
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
 
-            <Grid item xs={12} md={4}>
-              <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-                <Typography variant="h6" gutterBottom>
-                  Rent
-                </Typography>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Rental cost"
-                      type="number"
-                      name="rentalCost"
-                      value={inputData.rentalCost}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      size="small"
-                      fullWidth
-                      label="Rental cost rate"
-                      type="number"
-                      name="rentalCostRate"
-                      value={inputData.rentalCostRate}
-                      onChange={handleChange}
-                    />
-                  </Grid>
+            <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
+              <Typography variant="h6" gutterBottom>
+                Rent
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Rental cost"
+                    type="number"
+                    name="rentalCost"
+                    value={inputData.rentalCost}
+                    onChange={handleChange}
+                  />
                 </Grid>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Box>
-        <Table {...inputData} />
-      </Container>
-    </>
+                <Grid item xs={12}>
+                  <TextField
+                    size="small"
+                    fullWidth
+                    label="Rental cost rate"
+                    type="number"
+                    name="rentalCostRate"
+                    value={inputData.rentalCostRate}
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Grid>
+            </Paper>
+          </Box>
+        </Grid>
+        <Grid item xs={12} lg={8}>
+          <Box sx={{ my: 2 }}>
+            <Table {...inputData} />
+          </Box>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 
