@@ -31,7 +31,7 @@ const Input = (): React.JSX.Element => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const {name, value} = e.target;
-      setInputData(prevData => ({...prevData, [name]: value}))
+      setInputData(prevData => ({...prevData, [name]: Number(value)}))
     }
 
   return (

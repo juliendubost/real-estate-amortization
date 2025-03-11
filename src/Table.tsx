@@ -34,7 +34,7 @@ const Table = (props: InputProps): React.JSX.Element => {
   for (let i=1; i < props.loanYears ; i++) {
     years.push(i+1);
     principal.push(principal[i-1] - (annualPaymentAmount - interest[i-1]));
-    interest.push(interest[i-1] * (1 + loanRateAbs));
+    interest.push(principal[i] * loanRateAbs);
     annualTaxesCost.push(annualTaxesCost[i-1] * (1 + props.annualTaxesRate / 100));
     annualRentalCost.push(annualRentalCost[i-1] * (1 + props.rentalCostRate / 100));
     realtyMV.push(realtyMV[i-1] * (1 + props.realtyMVRate / 100));
@@ -52,12 +52,12 @@ const Table = (props: InputProps): React.JSX.Element => {
       <tr>
         <td data-label="Year">{years[year]}</td>
         <td data-label="Buy equity" style={{background:bcolor}}>{sunkCostDelta[year].toFixed(0)}</td>
-        <td data-label="Sunk buy">{sunkCostBuy[year]}</td>
+        <td data-label="Sunk buy">{sunkCostBuy[year].toFixed(0)}</td>
         <td data-label="Sunk rent">{sunkCostRent[year].toFixed(0)}</td>
-        <td data-label="Realty market value">{realtyMV[year]}</td>
+        <td data-label="Realty market value">{realtyMV[year].toFixed(0)}</td>
         <td data-label="Annual rent cost">{annualRentalCost[year].toFixed(0)}</td>
         <td data-label="Loan interest">{interest[year].toFixed(0)}</td>
-        <td data-label="Loan principal">{principal[year]}</td>
+        <td data-label="Loan principal">{principal[year].toFixed(0)}</td>
       </tr>
     )
   };
