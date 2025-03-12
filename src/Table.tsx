@@ -10,10 +10,46 @@ import {
   Paper,
   Typography,
   Box,
-  Grid
+  Grid,
+  Card,
+  CardContent,
+  useTheme,
+  useMediaQuery,
+  Tooltip,
 } from '@mui/material'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import { styled } from '@mui/material/styles';
+
+const StyledCard = styled(Card)(({ theme }) => ({
+  height: '100%',
+  transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+  borderRadius: 8,
+  '&:hover': {
+    transform: 'translateY(-2px)',
+    boxShadow: '0px 8px 12px -3px rgba(0,0,0,0.1), 0px 4px 6px -2px rgba(0,0,0,0.05)',
+  },
+}));
+
+const StatCard = ({ title, value, icon: Icon }: { title: string; value: string; icon: React.ElementType }) => (
+  <StyledCard>
+    <CardContent>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+        <Icon sx={{ color: 'primary.main', mr: 1 }} />
+        <Typography variant="subtitle2" color="text.secondary">
+          {title}
+        </Typography>
+      </Box>
+      <Typography variant="h5" color="text.primary" fontWeight="600">
+        {value}
+      </Typography>
+    </CardContent>
+  </StyledCard>
+);
 
 const Table = (props: InputProps): React.JSX.Element => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   // initial values
   let loanRateAbs = props.loanRate / 100;
@@ -57,79 +93,172 @@ const Table = (props: InputProps): React.JSX.Element => {
     sunkCostDelta.push(sunkCostRent[i] - sunkCostBuy[i] + liquidationValue[i]);
   };
 
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', { 
+      style: 'currency', 
+      currency: 'EUR',
+      maximumFractionDigits: isSmallScreen ? 0 : 2,
+      notation: isSmallScreen ? 'compact' : 'standard'
+    }).format(value);
+  };
+
   const getYearData = (year: number): React.JSX.Element => {
     const isNegative = sunkCostDelta[year] < 0;
 
     return (
-      <TableRow key={year}>
+      <TableRow 
+        key={year}
+        sx={{
+          '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.grey[50],
+          },
+          '&:hover': {
+            backgroundColor: theme.palette.grey[100],
+          },
+          transition: 'background-color 0.2s ease-in-out',
+        }}
+      >
         <TableCell>{years[year]}</TableCell>
         <TableCell sx={{
-          color: isNegative ? 'error.main' : 'success.main',
-          fontWeight: 'bold'
+          color: isNegative ? theme.palette.error.main : theme.palette.success.main,
+          fontWeight: 600,
         }}>
-          {sunkCostDelta[year].toFixed(0)}
+          {formatCurrency(sunkCostDelta[year])}
         </TableCell>
-        <TableCell>{sunkCostBuy[year].toFixed(0)}</TableCell>
-        <TableCell>{sunkCostRent[year].toFixed(0)}</TableCell>
-        <TableCell>{realtyMV[year].toFixed(0)}</TableCell>
-        <TableCell>{annualRentalCost[year].toFixed(0)}</TableCell>
-        <TableCell>{interest[year].toFixed(0)}</TableCell>
-        <TableCell>{principal[year].toFixed(0)}</TableCell>
+        <TableCell>{formatCurrency(sunkCostBuy[year])}</TableCell>
+        <TableCell>{formatCurrency(sunkCostRent[year])}</TableCell>
+        <TableCell>{formatCurrency(realtyMV[year])}</TableCell>
+        <TableCell>{formatCurrency(annualRentalCost[year])}</TableCell>
+        <TableCell>{formatCurrency(interest[year])}</TableCell>
+        <TableCell>{formatCurrency(principal[year])}</TableCell>
       </TableRow>
     );
   };
 
+  const tableHeaders = [
+    { id: 'year', label: 'Year', tooltip: 'Year number' },
+    { id: 'equity', label: 'Net Position', tooltip: 'Buy vs. Rent Financial Position' },
+    { id: 'buyCost', label: 'Buy Cost', tooltip: 'Total Cost of Buying' },
+    { id: 'rentCost', label: 'Rent Cost', tooltip: 'Total Cost of Renting' },
+    { id: 'value', label: 'Property Value', tooltip: 'Current Property Market Value' },
+    { id: 'rent', label: 'Annual Rent', tooltip: 'Yearly Rental Cost' },
+    { id: 'interest', label: 'Interest', tooltip: 'Yearly Loan Interest' },
+    { id: 'principal', label: 'Principal', tooltip: 'Remaining Loan Principal' },
+  ];
+
   return (
-    <>
-      <Paper elevation={3} sx={{ p: 2, mb: 3 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6" color="primary">
-              Annual rent payment: {annualPaymentAmount.toFixed(0)}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <Typography variant="h6" color="primary">
-              Acquisition initial sunk costs: {(realtyMV[0] - props.acquisitionCost).toFixed(0)}
-            </Typography>
-          </Grid>
+    <Box>
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6}>
+          <StatCard
+            title="Annual Loan Payment"
+            value={formatCurrency(annualPaymentAmount)}
+            icon={TrendingUpIcon}
+          />
         </Grid>
-      </Paper>
-      <TableContainer component={Paper} sx={{ 
-        elevation: 3,
-        '& .MuiTableCell-head': {
-          backgroundColor: 'primary.main',
-          color: 'white',
-          fontWeight: 'bold'
-        },
-        '& .MuiTableCell-body': {
-          fontSize: '0.875rem',
-          whiteSpace: 'nowrap'
-        },
-        '& .MuiTable-root': {
-          minWidth: 650
-        }
-      }}>
-        <MuiTable size="small">
+        <Grid item xs={12} sm={6}>
+          <StatCard
+            title="Initial Investment"
+            value={formatCurrency(realtyMV[0] - props.acquisitionCost)}
+            icon={AccountBalanceWalletIcon}
+          />
+        </Grid>
+      </Grid>
+
+      <TableContainer 
+        component={Paper} 
+        sx={{ 
+          borderRadius: 2,
+          boxShadow: '0px 1px 3px rgba(0,0,0,0.1)',
+          border: '1px solid',
+          borderColor: 'grey.200',
+          overflow: 'hidden',
+          '& .MuiTableCell-head': {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+            fontWeight: 600,
+            whiteSpace: 'nowrap',
+            padding: theme.spacing(1.5),
+            fontSize: '0.875rem',
+            borderBottom: 'none',
+            '&:first-of-type': {
+              borderTopLeftRadius: 0,
+            },
+            '&:last-of-type': {
+              borderTopRightRadius: 0,
+            },
+          },
+          '& .MuiTableCell-body': {
+            padding: theme.spacing(1.5),
+            fontSize: '0.875rem',
+            borderBottom: `1px solid ${theme.palette.grey[200]}`,
+          },
+          '& .MuiTableRow-root:last-child .MuiTableCell-body': {
+            borderBottom: 'none',
+          },
+          '& .MuiTableRow-root:hover': {
+            backgroundColor: theme.palette.grey[50],
+          },
+        }}
+      >
+        <MuiTable size={isSmallScreen ? "small" : "medium"} sx={{ tableLayout: 'fixed' }}>
           <TableHead>
             <TableRow>
-              <TableCell>Year</TableCell>
-              <TableCell>Buy equity</TableCell>
-              <TableCell>Sunk buy</TableCell>
-              <TableCell>Sunk rent</TableCell>
-              <TableCell>Realty market value</TableCell>
-              <TableCell>Annual rent cost</TableCell>
-              <TableCell>Loan interest</TableCell>
-              <TableCell>Loan principal</TableCell>
+              {tableHeaders.map((header) => (
+                <Tooltip 
+                  key={header.id} 
+                  title={header.tooltip} 
+                  arrow 
+                  placement="top"
+                  enterDelay={300}
+                >
+                  <TableCell sx={{ 
+                    width: header.id === 'year' ? '8%' : 'auto',
+                    textAlign: header.id === 'year' ? 'center' : 'right',
+                  }}>
+                    {header.label}
+                  </TableCell>
+                </Tooltip>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {years.map((_, i) => getYearData(i))}
+            {years.map((_, i) => (
+              <TableRow 
+                key={i}
+                sx={{
+                  '&:nth-of-type(odd)': {
+                    backgroundColor: theme.palette.grey[50],
+                  },
+                  '&:hover': {
+                    backgroundColor: `${theme.palette.primary.light}15`,
+                  },
+                  transition: 'background-color 0.2s ease-in-out',
+                }}
+              >
+                <TableCell sx={{ textAlign: 'center' }}>{years[i]}</TableCell>
+                <TableCell 
+                  sx={{
+                    color: sunkCostDelta[i] < 0 ? theme.palette.error.main : theme.palette.success.main,
+                    fontWeight: 600,
+                    textAlign: 'right',
+                  }}
+                >
+                  {formatCurrency(sunkCostDelta[i])}
+                </TableCell>
+                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(sunkCostBuy[i])}</TableCell>
+                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(sunkCostRent[i])}</TableCell>
+                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(realtyMV[i])}</TableCell>
+                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(annualRentalCost[i])}</TableCell>
+                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(interest[i])}</TableCell>
+                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(principal[i])}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </MuiTable>
       </TableContainer>
-    </>
-  )
+    </Box>
+  );
 }
 
-export default Table
+export default Table;
