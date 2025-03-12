@@ -149,6 +149,42 @@ const theme = createTheme({
             '&:hover fieldset': {
               borderColor: '#60a5fa',
             },
+            '& input[type=number]': {
+              MozAppearance: 'textfield',
+              '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+                WebkitAppearance: 'none',
+                margin: 0,
+              },
+            },
+          },
+          '& .MuiInputAdornment-root': {
+            marginLeft: 0,
+            '& .MuiButtonGroup-root': {
+              height: '100%',
+              '& button': {
+                minWidth: 32,
+                padding: 0,
+                border: 'none',
+                borderLeft: `1px solid ${grey[300]}`,
+                borderRadius: 0,
+                '&:hover': {
+                  backgroundColor: grey[50],
+                },
+                '&:first-of-type': {
+                  borderBottom: `1px solid ${grey[300]}`,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          '&[type=number]': {
+            textAlign: 'right',
+            paddingRight: '4px',
           },
         },
       },

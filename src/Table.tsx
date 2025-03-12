@@ -136,14 +136,14 @@ const Table = (props: InputProps): React.JSX.Element => {
   };
 
   const tableHeaders = [
-    { id: 'year', label: 'Year', tooltip: 'Year number' },
-    { id: 'equity', label: 'Net Position', tooltip: 'Buy vs. Rent Financial Position' },
-    { id: 'buyCost', label: 'Buy Cost', tooltip: 'Total Cost of Buying' },
-    { id: 'rentCost', label: 'Rent Cost', tooltip: 'Total Cost of Renting' },
-    { id: 'value', label: 'Property Value', tooltip: 'Current Property Market Value' },
-    { id: 'rent', label: 'Annual Rent', tooltip: 'Yearly Rental Cost' },
-    { id: 'interest', label: 'Interest', tooltip: 'Yearly Loan Interest' },
-    { id: 'principal', label: 'Principal', tooltip: 'Remaining Loan Principal' },
+    { id: 'year', label: 'Year', tooltip: 'Year number', width: '7%' },
+    { id: 'equity', label: 'Net Position', tooltip: 'Buy vs. Rent Financial Position', width: '15%' },
+    { id: 'buyCost', label: 'Buy Cost', tooltip: 'Total Cost of Buying', width: '13%' },
+    { id: 'rentCost', label: 'Rent Cost', tooltip: 'Total Cost of Renting', width: '13%' },
+    { id: 'value', label: 'Property Value', tooltip: 'Current Property Market Value', width: '13%' },
+    { id: 'rent', label: 'Annual Rent', tooltip: 'Yearly Rental Cost', width: '13%' },
+    { id: 'interest', label: 'Interest', tooltip: 'Yearly Loan Interest', width: '13%' },
+    { id: 'principal', label: 'Principal', tooltip: 'Remaining Loan Principal', width: '13%' },
   ];
 
   return (
@@ -168,36 +168,32 @@ const Table = (props: InputProps): React.JSX.Element => {
       <TableContainer 
         component={Paper} 
         sx={{ 
-          borderRadius: 2,
-          boxShadow: '0px 1px 3px rgba(0,0,0,0.1)',
+          borderRadius: 0,
+          boxShadow: 'none',
           border: '1px solid',
           borderColor: 'grey.200',
-          overflow: 'hidden',
+          overflow: 'auto',
+          maxHeight: '70vh',
           '& .MuiTableCell-head': {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.grey[100],
+            color: theme.palette.text.primary,
             fontWeight: 600,
             whiteSpace: 'nowrap',
             padding: theme.spacing(1.5),
             fontSize: '0.875rem',
-            borderBottom: 'none',
-            '&:first-of-type': {
-              borderTopLeftRadius: 0,
-            },
-            '&:last-of-type': {
-              borderTopRightRadius: 0,
-            },
+            borderBottom: `2px solid ${theme.palette.grey[300]}`,
+            position: 'sticky',
+            top: 0,
+            zIndex: 1,
           },
           '& .MuiTableCell-body': {
             padding: theme.spacing(1.5),
             fontSize: '0.875rem',
             borderBottom: `1px solid ${theme.palette.grey[200]}`,
+            whiteSpace: 'nowrap',
           },
           '& .MuiTableRow-root:last-child .MuiTableCell-body': {
             borderBottom: 'none',
-          },
-          '& .MuiTableRow-root:hover': {
-            backgroundColor: theme.palette.grey[50],
           },
         }}
       >
@@ -212,10 +208,13 @@ const Table = (props: InputProps): React.JSX.Element => {
                   placement="top"
                   enterDelay={300}
                 >
-                  <TableCell sx={{ 
-                    width: header.id === 'year' ? '8%' : 'auto',
-                    textAlign: header.id === 'year' ? 'center' : 'right',
-                  }}>
+                  <TableCell 
+                    sx={{ 
+                      width: header.width,
+                      textAlign: header.id === 'year' ? 'center' : 'right',
+                      backgroundColor: theme.palette.grey[100],
+                    }}
+                  >
                     {header.label}
                   </TableCell>
                 </Tooltip>
@@ -227,31 +226,54 @@ const Table = (props: InputProps): React.JSX.Element => {
               <TableRow 
                 key={i}
                 sx={{
-                  '&:nth-of-type(odd)': {
+                  '&:nth-of-type(even)': {
                     backgroundColor: theme.palette.grey[50],
                   },
                   '&:hover': {
-                    backgroundColor: `${theme.palette.primary.light}15`,
+                    backgroundColor: `${theme.palette.primary.light}08`,
                   },
                   transition: 'background-color 0.2s ease-in-out',
                 }}
               >
-                <TableCell sx={{ textAlign: 'center' }}>{years[i]}</TableCell>
+                <TableCell 
+                  sx={{ 
+                    textAlign: 'center',
+                    color: theme.palette.text.secondary,
+                    fontWeight: 500,
+                  }}
+                >
+                  {years[i]}
+                </TableCell>
                 <TableCell 
                   sx={{
                     color: sunkCostDelta[i] < 0 ? theme.palette.error.main : theme.palette.success.main,
                     fontWeight: 600,
                     textAlign: 'right',
+                    backgroundColor: sunkCostDelta[i] < 0 
+                      ? `${theme.palette.error.main}08`
+                      : `${theme.palette.success.main}08`,
                   }}
                 >
                   {formatCurrency(sunkCostDelta[i])}
                 </TableCell>
-                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(sunkCostBuy[i])}</TableCell>
-                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(sunkCostRent[i])}</TableCell>
-                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(realtyMV[i])}</TableCell>
-                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(annualRentalCost[i])}</TableCell>
-                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(interest[i])}</TableCell>
-                <TableCell sx={{ textAlign: 'right' }}>{formatCurrency(principal[i])}</TableCell>
+                {[
+                  sunkCostBuy[i],
+                  sunkCostRent[i],
+                  realtyMV[i],
+                  annualRentalCost[i],
+                  interest[i],
+                  principal[i]
+                ].map((value, index) => (
+                  <TableCell 
+                    key={index}
+                    sx={{ 
+                      textAlign: 'right',
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
+                    {formatCurrency(value)}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>

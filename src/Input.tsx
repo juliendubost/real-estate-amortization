@@ -6,8 +6,106 @@ import {
   Paper, 
   Typography, 
   Grid,
-  Box
+  Box,
+  InputAdornment,
+  IconButton,
+  ButtonGroup,
+  StandardTextFieldProps,
+  OutlinedTextFieldProps,
 } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
+
+type NumberInputProps = {
+  label: string;
+  name: string;
+  value: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  step?: number;
+  adornment?: string;
+};
+
+const NumberInput = ({ 
+  label, 
+  name, 
+  value, 
+  onChange, 
+  step = 1, 
+  adornment,
+}: NumberInputProps) => {
+  const handleIncrease = () => {
+    onChange({
+      target: { name, value: String(Number(value) + step) }
+    } as React.ChangeEvent<HTMLInputElement>);
+  };
+
+  const handleDecrease = () => {
+    onChange({
+      target: { name, value: String(Number(value) - step) }
+    } as React.ChangeEvent<HTMLInputElement>);
+  };
+
+  return (
+    <TextField
+      size="small"
+      fullWidth
+      label={`${label}${adornment ? ` (${adornment})` : ''}`}
+      type="number"
+      name={name}
+      value={value}
+      onChange={onChange}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <ButtonGroup
+              orientation="vertical"
+              size="small"
+              sx={{
+                height: '100%',
+                '& .MuiButtonGroup-grouped:not(:last-of-type)': {
+                  borderBottom: '1px solid',
+                  borderBottomColor: 'grey.300',
+                },
+              }}
+            >
+              <IconButton
+                onClick={handleIncrease}
+                size="small"
+                sx={{ 
+                  borderRadius: 0,
+                  height: '50%',
+                  width: 24,
+                  minWidth: 24,
+                  padding: 0,
+                }}
+              >
+                <AddIcon sx={{ fontSize: 16 }} />
+              </IconButton>
+              <IconButton
+                onClick={handleDecrease}
+                size="small"
+                sx={{ 
+                  borderRadius: 0,
+                  height: '50%',
+                  width: 24,
+                  minWidth: 24,
+                  padding: 0,
+                }}
+              >
+                <RemoveIcon sx={{ fontSize: 16 }} />
+              </IconButton>
+            </ButtonGroup>
+          </InputAdornment>
+        ),
+      } as Partial<OutlinedTextFieldProps['InputProps']>}
+      sx={{
+        '& .MuiOutlinedInput-root': {
+          pr: 0,
+        },
+      }}
+    />
+  );
+};
 
 export interface InputProps {
   acquisitionCost: number;  // total acquisition cost, taxes included
@@ -53,58 +151,53 @@ const Input = (): React.JSX.Element => {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Acquisition cost"
-                    type="number"
+                  <NumberInput
+                    label="Acquisition Cost"
                     name="acquisitionCost"
                     value={inputData.acquisitionCost}
                     onChange={handleChange}
+                    step={1000}
+                    adornment="€"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Market value"
-                    type="number"
+                  <NumberInput
+                    label="Market Value"
                     name="realtyMV"
                     value={inputData.realtyMV}
                     onChange={handleChange}
+                    step={1000}
+                    adornment="€"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Market value growth"
-                    type="number"
+                  <NumberInput
+                    label="Market Value Growth"
                     name="realtyMVRate"
                     value={inputData.realtyMVRate}
                     onChange={handleChange}
+                    step={0.1}
+                    adornment="%"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Annual owner fee"
-                    type="number"
+                  <NumberInput
+                    label="Annual Owner Fee"
                     name="annualTaxes"
                     value={inputData.annualTaxes}
                     onChange={handleChange}
+                    step={100}
+                    adornment="€"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Annual owner fee growth rate"
-                    type="number"
+                  <NumberInput
+                    label="Annual Owner Fee Growth"
                     name="annualTaxesRate"
                     value={inputData.annualTaxesRate}
                     onChange={handleChange}
+                    step={0.1}
+                    adornment="%"
                   />
                 </Grid>
               </Grid>
@@ -116,36 +209,33 @@ const Input = (): React.JSX.Element => {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Loan amount"
-                    type="number"
+                  <NumberInput
+                    label="Loan Amount"
                     name="loan"
                     value={inputData.loan}
                     onChange={handleChange}
+                    step={1000}
+                    adornment="€"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Loan rate"
-                    type="number"
+                  <NumberInput
+                    label="Interest Rate"
                     name="loanRate"
                     value={inputData.loanRate}
                     onChange={handleChange}
+                    step={0.1}
+                    adornment="%"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Loan years"
-                    type="number"
+                  <NumberInput
+                    label="Loan Term"
                     name="loanYears"
                     value={inputData.loanYears}
                     onChange={handleChange}
+                    step={1}
+                    adornment="years"
                   />
                 </Grid>
               </Grid>
@@ -157,25 +247,23 @@ const Input = (): React.JSX.Element => {
               </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Rental cost"
-                    type="number"
+                  <NumberInput
+                    label="Monthly Rent"
                     name="rentalCost"
                     value={inputData.rentalCost}
                     onChange={handleChange}
+                    step={100}
+                    adornment="€"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    size="small"
-                    fullWidth
-                    label="Rental cost rate"
-                    type="number"
+                  <NumberInput
+                    label="Annual Rent Increase"
                     name="rentalCostRate"
                     value={inputData.rentalCostRate}
                     onChange={handleChange}
+                    step={0.1}
+                    adornment="%"
                   />
                 </Grid>
               </Grid>
