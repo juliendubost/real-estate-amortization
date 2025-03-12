@@ -1,5 +1,3 @@
-@import '../node_modules/mini.css/dist/mini-dark.min.css';
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -14,11 +12,13 @@ code {
     monospace;
 }
 
-table {
+.table-container {
   margin-top: 20px;
+  width: 100%;
+  overflow-x: auto;
 }
 
-table:not(.horizontal) {
-  overflow: auto;
-  max-height: 1200px;
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
